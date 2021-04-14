@@ -152,13 +152,15 @@ public class MathTools {
 
 
     public static String displayNumber(double d, int decimal_place) {
-        synchronized (df) {
+        if(d == Math.floor(d)) // Check if double is integer
+        	return Integer.toString((int) d);
+    	
+    	synchronized (df) {
             df.setMaximumFractionDigits(decimal_place);
             df.setMinimumFractionDigits(decimal_place);
             return df.format(d);
         }
     }
-
 
     public static double calculate(String string, double exception) {
         try {
