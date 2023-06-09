@@ -34,10 +34,13 @@ public class StringManager {
         if (s == null) {
             return null;
         }
-        Matcher matcher = hexPattern.matcher(s);
-        while (matcher.find()) {
-            String color = s.substring(matcher.start(), matcher.end());
-            s = s.replace(color, "" + net.md_5.bungee.api.ChatColor.of(color));
+
+        if(!containsMiniMessages(s)) {
+            Matcher matcher = hexPattern.matcher(s);
+            while (matcher.find()) {
+                String color = s.substring(matcher.start(), matcher.end());
+                s = s.replace(color, "" + net.md_5.bungee.api.ChatColor.of(color));
+            }
         }
 
         s = s.replace("[<3]", "❤");
@@ -230,5 +233,20 @@ public class StringManager {
         return b;
     }
 
+    public boolean containsMiniMessages(String s){
+        String regex = "<.*?>.*?(?:</.*?>)?";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+
+        return matcher.matches();
+    }
+
+    public String removeMiniMessageTags(String input) {
+        String tagPattern = "<[^>]*>";
+        Pattern pattern = Pattern.compile(tagPattern);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.replaceAll("");
+    }
 
 }

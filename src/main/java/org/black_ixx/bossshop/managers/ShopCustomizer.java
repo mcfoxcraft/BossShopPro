@@ -133,7 +133,7 @@ public class ShopCustomizer {
             BSBuy buy = everything.get(slot);
             int real_slot = slot - page_slot_start;
             locs.put(real_slot, buy);
-            addItem(inventory, buy.getItem(), real_slot, shop.isDisplaying(), p, buy, shop, holder);
+            addItem(inventory, buy.getDisplayItem(), real_slot, shop.isDisplaying(), p, buy, shop, holder);
         }
 
         int highest_page = highest_slot / items_per_page; //in case the layout is active

@@ -88,21 +88,39 @@ public class ItemStackTranslator {
     private List<String> splitLore(List<String> lore, int max_line_length, boolean final_version) {
         if (max_line_length > 0 && final_version) {
             List<String> goal = new ArrayList<>();
+            boolean usingMiniMessages = false;
+
             for (String line : lore) {
+                if(ClassManager.manager.getStringManager().containsMiniMessages(line)){
+                    usingMiniMessages = true;
+                }
+
+                String lastAdventureColor = null;
 
                 String[] words = line.split(" ");
                 String current = null;
 
                 for (String word : words) {
+                    if(usingMiniMessages){
+                        int colorStartIndex = word.lastIndexOf('<');
+                        int colorEndIndex = word.lastIndexOf('>');
+                        if(colorStartIndex >= 0 && colorEndIndex > 0 && colorStartIndex < colorEndIndex){
+                            lastAdventureColor = word.substring(colorStartIndex, colorEndIndex + 1);
+                        }
+                    }
+
                     if (current == null) {
                         current = word;
                         continue;
                     }
+
                     String next = current + " " + word;
-                    if (ChatColor.stripColor(next).length() > max_line_length) {
+
+                    int textLength = usingMiniMessages ? ClassManager.manager.getStringManager().removeMiniMessageTags(next).length() : ChatColor.stripColor(next).length();
+                    if (textLength > max_line_length) {
                         goal.add(current);
-                        String last_colors = current == null ? "" : ChatColor.getLastColors(current);
-                        current = last_colors + word;
+                        String lastColor = usingMiniMessages ? lastAdventureColor : ChatColor.getLastColors(current);
+                        current = lastColor + word;
                     } else {
                         current = next;
                     }

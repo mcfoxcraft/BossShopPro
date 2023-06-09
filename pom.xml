@@ -34,6 +34,10 @@
 
 	<repositories>
 		<repository>
+			<id>paper</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
+		</repository>
+		<repository>
 			<id>repo</id>
 			<url>https://repo.glaremasters.me/repository/public/</url>
 		</repository>
@@ -48,6 +52,14 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>BenCodez Repo</id>
+			<url>https://nexus.bencodez.com/repository/maven-public/</url>
+		</repository>
+		<repository>
+			<id>teamvk-repo</id>
+			<url>https://raw.githubusercontent.com/TeamVK/maven-repository/master/release/</url>
+		</repository>
 		<!-- Jitpack -->
 		<repository>
 			<id>jitpack.io</id>
@@ -61,18 +73,18 @@
 
 	<dependencies>
 		<!-- Platform -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>io.papermc.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>1.19.4-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
+			<version>1.18.22</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -141,8 +153,8 @@
 
 		<!-- Adds voting plugin support -->
 		<dependency>
-			<groupId>com.github.Ben12345rocks</groupId>
-			<artifactId>VotingPlugin</artifactId>
+			<groupId>com.bencodez</groupId>
+			<artifactId>votingplugin</artifactId>
 			<version>LATEST</version>
 			<scope>provided</scope>
 		</dependency>
@@ -191,7 +203,7 @@
 		<dependency>
 			<groupId>com.vk2gpz.tokenenchant</groupId>
 			<artifactId>TokenEnchantAPI</artifactId>
-			<version>15.3.2</version>
+			<version>18.37.1</version>
 			<scope>provided</scope>
 		</dependency>
 
