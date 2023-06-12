@@ -138,15 +138,15 @@ public class BSBuy {
         return item;
     }
 
-    public ItemStack getDisplayItem() {
+    public ItemStack getDisplayItem(Player player, BSShopHolder holder) {
         ItemStack adventureItem = item.clone();
         adventureItem.editMeta(itemMeta -> {
             try {
-                Component displayName = MiniMessage.miniMessage().deserialize(item.getItemMeta().getDisplayName());
+                itemMeta.setDisplayName(ClassManager.manager.getStringManager().transform(item.getItemMeta().getDisplayName(), this, shop, holder, player));
+                Component displayName = MiniMessage.miniMessage().deserialize(itemMeta.getDisplayName());
                 displayName = displayName.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE);
                 itemMeta.displayName(displayName);
-            } catch (ParsingExceptionImpl e){
-            }
+            } catch (ParsingExceptionImpl e){ }
 
             if (itemMeta.hasLore()) {
                 itemMeta.lore(item.getItemMeta().getLore().stream()

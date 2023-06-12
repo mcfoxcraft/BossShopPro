@@ -30,10 +30,6 @@ public class ItemStackTranslator {
                 ItemMeta meta = item.getItemMeta();
 
                 //Normal itemdata
-                if (meta.hasDisplayName()) {
-                    meta.setDisplayName(ClassManager.manager.getStringManager().transform(meta.getDisplayName(), buy, shop, holder, target));
-                }
-
                 if (meta.hasLore()) {
                     List<String> lore = meta.getLore();
                     for (int i = 0; i < lore.size(); i++) {
