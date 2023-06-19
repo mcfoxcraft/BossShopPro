@@ -1,5 +1,9 @@
 package org.black_ixx.bossshop.core;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.internal.parser.ParsingExceptionImpl;
 import org.black_ixx.bossshop.BossShop;
 import org.black_ixx.bossshop.core.conditions.BSCondition;
 import org.black_ixx.bossshop.core.prices.BSPriceType;
@@ -21,6 +25,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 
 public class BSBuy {
@@ -131,6 +136,37 @@ public class BSBuy {
 
     public ItemStack getItem() {
         return item;
+    }
+
+    public ItemStack getDisplayItem(Player player, BSShopHolder holder) {
+        ItemStack adventureItem = item.clone();
+        adventureItem.editMeta(itemMeta -> {
+            try {
+                itemMeta.setDisplayName(ClassManager.manager.getStringManager().transform(item.getItemMeta().getDisplayName(), this, shop, holder, player));
+                Component displayName = MiniMessage.miniMessage().deserialize(itemMeta.getDisplayName());
+                displayName = displayName.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+                itemMeta.displayName(displayName);
+            } catch (ParsingExceptionImpl e){ }
+
+            if (itemMeta.hasLore()) {
+                itemMeta.lore(item.getItemMeta().getLore().stream()
+                        .map(line -> {
+                            Component loreLine;
+                            try{
+                                loreLine = MiniMessage.miniMessage().deserialize(line);
+                                loreLine = loreLine.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+                            } catch (ParsingExceptionImpl e){
+                                loreLine = Component.text(line);
+                            }
+
+                            return loreLine;
+                        })
+                        .collect(Collectors.toList()));
+            }
+
+        });
+
+        return adventureItem;
     }
 
     public boolean isItemFix() {
